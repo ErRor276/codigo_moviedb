@@ -66,13 +66,13 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: BlocBuilder<MovieBloc, MovieState>(
-            builder: (context, state) {
-              if (state.status == MovieStatus.initial) {
-                return const MovieLoading();
-              } else if (state.status == MovieStatus.success) {
-                return Column(
+        child: BlocBuilder<MovieBloc, MovieState>(
+          builder: (context, state) {
+            if (state.status == MovieStatus.initial) {
+              return const MovieLoading();
+            } else if (state.status == MovieStatus.success) {
+              return SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -91,12 +91,12 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     _buildUpcomingMovieList(context, state.upcomingMovies),
                   ],
-                );
-              } else {
-                return MovieError(errorMessage: state.errorMessage);
-              }
-            },
-          ),
+                ),
+              );
+            } else {
+              return MovieError(errorMessage: state.errorMessage);
+            }
+          },
         ),
       ),
     );
